@@ -276,7 +276,7 @@ const app = {
                 tr.className = 'hover:bg-stone-800 transition-colors border-b border-stone-700';
                 tr.innerHTML = `
                     <td class="p-4 font-medium text-white">#${order.id.slice(-6)}</td>
-                    <td class="p-4">${order.customerName}</td>
+                    <td class="p-4 text-white">${order.customerName}</td>
                     <td class="p-4 font-medium text-emerald-400">$${order.totalPrice.toFixed(2)}</td>
                     <td class="p-4">${this.getStatusBadge(order.status)}</td>
                 `;
