@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foodiez – Order Management Dashboard</title>
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#f59e0b', // amber-500
+                        primaryHover: '#d97706', // amber-600
+                        darkBg: '#1c1917', // stone-900
+                        cardBg: '#292524', // stone-800
+                        textMain: '#fafaf9', // stone-50
+                        textMuted: '#a8a29e', // stone-400
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        slideInRight: {
+                            '0%': { opacity: '0', transform: 'translateX(100%)' },
+                            '100%': { opacity: '1', transform: 'translateX(0)' },
+                        },
+                        fadeOutRight: {
+                            '0%': { opacity: '1', transform: 'translateX(0)' },
+                            '100%': { opacity: '0', transform: 'translateX(100%)' },
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.3s ease-out forwards',
+                        'slide-up': 'slideUp 0.4s ease-out forwards',
+                        'slide-in-right': 'slideInRight 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards',
+                        'fade-out-right': 'fadeOutRight 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-darkBg text-textMain min-h-screen flex overflow-hidden font-sans [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-cardBg [&::-webkit-scrollbar-thumb]:bg-stone-600 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-stone-500">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-cardBg border-r border-stone-700 flex flex-col transition-all duration-300 hidden md:flex z-20">
+        <div class="h-16 flex items-center px-6 border-b border-stone-700">
+            <svg class="w-8 h-8 text-primary mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+            </svg>
+            <h1 class="text-xl font-bold tracking-wider text-white" id="sidebar-brand">Foodiez</h1>
+        </div>
+
+        <nav class="flex-1 py-6 px-4 space-y-2 overflow-y-auto">
+            <button data-target="dashboard-view" class="nav-link w-full flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-colors bg-primary/10 text-primary">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                Dashboard
+            </button>
+            <button data-target="orders-view" class="nav-link w-full flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-colors text-textMuted hover:bg-stone-700/50 hover:text-white">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                Orders
+            </button>
+            <button data-target="create-order-view" class="nav-link w-full flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-colors text-textMuted hover:bg-stone-700/50 hover:text-white">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                Create Order
+            </button>
+        </nav>
+        
+        <div class="p-4 border-t border-stone-700">
+            <div class="flex items-center">
+                <div class="w-10 h-10 rounded-full bg-stone-600 flex items-center justify-center font-bold text-white shadow-lg">A</div>
+                <div class="ml-3">
+                    <p class="text-sm font-medium text-white">Admin</p>
+                    <p class="text-xs text-textMuted">Manager</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col h-screen overflow-hidden relative">
+        
+        <!-- Mobile Header -->
+        <header class="md:hidden h-16 bg-cardBg border-b border-stone-700 flex items-center justify-between px-4 z-10">
+            <div class="flex items-center">
+                <svg class="w-6 h-6 text-primary mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                <h1 class="text-lg font-bold">Foodiez</h1>
+            </div>
+            <button id="mobile-menu-btn" class="text-textMuted hover:text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+        </header>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu" class="fixed inset-0 bg-darkBg/95 z-50 transform translate-x-full transition-transform duration-300 md:hidden flex flex-col">
+            <div class="h-16 flex items-center justify-between px-4 border-b border-stone-700">
+                <h2 class="text-lg font-bold">Menu</h2>
+                <button id="close-menu-btn" class="text-textMuted hover:text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <nav class="flex-1 py-6 px-4 space-y-4">
+                <button data-target="dashboard-view" class="mobile-nav-link w-full flex items-center px-4 py-4 text-base font-medium rounded-xl transition-colors bg-primary/10 text-primary">
+                    Dashboard
+                </button>
+                <button data-target="orders-view" class="mobile-nav-link w-full flex items-center px-4 py-4 text-base font-medium rounded-xl transition-colors text-textMuted hover:bg-stone-700/50 hover:text-white">
+                    Orders
+                </button>
+                <button data-target="create-order-view" class="mobile-nav-link w-full flex items-center px-4 py-4 text-base font-medium rounded-xl transition-colors text-textMuted hover:bg-stone-700/50 hover:text-white">
+                    Create Order
+                </button>
+            </nav>
+        </div>
+
+        <!-- Scrollable Content Area -->
+        <div class="flex-1 overflow-y-auto p-4 md:p-8 relative">
+            
+            <!-- Global Loading Overlay -->
+            <div id="loading-overlay" class="absolute inset-0 bg-darkBg/80 backdrop-blur-sm z-40 hidden flex items-center justify-center">
+                <div class="w-12 h-12 animate-spin border-2 border-gray-700 border-t-yellow-500 rounded-full"></div>
+            </div>
+
+            <!-- View: Dashboard -->
+            <section id="dashboard-view" class="view-section block animate-fade-in">
+                <header class="mb-8 flex justify-between items-end">
+                    <div>
+                        <h2 class="text-3xl font-bold text-white mb-1">Overview</h2>
+                        <p class="text-textMuted text-sm">Welcome back! Here's what's happening today.</p>
+                    </div>
+                    <button class="bg-primary hover:bg-primaryHover text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-lg shadow-primary/20 flex items-center" onclick="app.switchView('create-order-view')">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                        New Order
+                    </button>
+                </header>
+
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
+                    <div class="bg-cardBg p-5 rounded-2xl border border-stone-700/50 shadow-sm flex flex-col justify-between">
+                        <div class="text-textMuted text-sm font-medium mb-2 flex items-center">
+                            <div class="w-2 h-2 rounded-full bg-blue-500 mr-2"></div> Total
+                        </div>
+                        <div class="text-3xl font-bold text-white" id="stat-total">0</div>
+                    </div>
+                    <div class="bg-cardBg p-5 rounded-2xl border border-stone-700/50 shadow-sm flex flex-col justify-between">
+                        <div class="text-textMuted text-sm font-medium mb-2 flex items-center">
+                            <div class="w-2 h-2 rounded-full bg-yellow-500 mr-2"></div> Pending
+                        </div>
+                        <div class="text-3xl font-bold text-white" id="stat-pending">0</div>
+                    </div>
+                    <div class="bg-cardBg p-5 rounded-2xl border border-stone-700/50 shadow-sm flex flex-col justify-between">
+                        <div class="text-textMuted text-sm font-medium mb-2 flex items-center">
+                            <div class="w-2 h-2 rounded-full bg-green-500 mr-2"></div> Accepted
+                        </div>
+                        <div class="text-3xl font-bold text-white" id="stat-accepted">0</div>
+                    </div>
+                    <div class="bg-cardBg p-5 rounded-2xl border border-stone-700/50 shadow-sm flex flex-col justify-between">
+                        <div class="text-textMuted text-sm font-medium mb-2 flex items-center">
+                            <div class="w-2 h-2 rounded-full bg-blue-500 mr-2"></div> Completed
+                        </div>
+                        <div class="text-3xl font-bold text-white" id="stat-completed">0</div>
+                    </div>
+                    <div class="bg-cardBg p-5 rounded-2xl border border-stone-700/50 shadow-sm flex flex-col justify-between">
+                        <div class="text-textMuted text-sm font-medium mb-2 flex items-center">
+                            <div class="w-2 h-2 rounded-full bg-red-500 mr-2"></div> Rejected
+                        </div>
+                        <div class="text-3xl font-bold text-white" id="stat-rejected">0</div>
+                    </div>
+                </div>
+
+                <!-- Latest Orders Table -->
+                <div class="bg-cardBg rounded-2xl border border-stone-700/50 shadow-sm overflow-hidden animate-slide-up" style="animation-delay: 0.1s;">
+                    <div class="p-6 border-b border-stone-700 flex justify-between items-center">
+                        <h3 class="text-lg font-bold text-white">Latest Orders</h3>
+                        <button class="text-sm text-primary hover:text-primaryHover font-medium" onclick="app.switchView('orders-view')">View all</button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left border-collapse">
+                            <thead>
+                                <tr class="bg-stone-800/50 text-textMuted text-xs uppercase tracking-wider border-b border-stone-700">
+                                    <th class="p-4 font-semibold">Order ID</th>
+                                    <th class="p-4 font-semibold">Customer</th>
+                                    <th class="p-4 font-semibold">Total</th>
+                                    <th class="p-4 font-semibold">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="latest-orders-tbody" class="divide-y divide-stone-700/50">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                        <div id="latest-orders-empty" class="hidden p-8 text-center text-textMuted">
+                            No orders found.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+             <!-- View: Orders -->
+            <section id="orders-view" class="view-section hidden animate-fade-in">
+                <header class="mb-6 flex flex-col md:flex-row md:justify-between md:items-end gap-4">
+                    <div>
+                        <h2 class="text-3xl font-bold text-white mb-1">Orders Management</h2>
+                        <p class="text-textMuted text-sm">View and manage all restaurant orders.</p>
+                    </div>
+                    
+                    <!-- Filters -->
+                    <div class="flex gap-2 overflow-x-auto pb-2 md:pb-0 hide-scrollbar">
+                        <button class="filter-btn active px-4 py-2 rounded-full text-sm font-medium bg-primary text-white whitespace-nowrap" data-filter="all">All</button>
+                        <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium bg-stone-800 text-textMuted hover:bg-stone-700 hover:text-white whitespace-nowrap" data-filter="pending">Pending</button>
+                        <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium bg-stone-800 text-textMuted hover:bg-stone-700 hover:text-white whitespace-nowrap" data-filter="accepted">Accepted</button>
+                        <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium bg-stone-800 text-textMuted hover:bg-stone-700 hover:text-white whitespace-nowrap" data-filter="completed">Completed</button>
+                        <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium bg-stone-800 text-textMuted hover:bg-stone-700 hover:text-white whitespace-nowrap" data-filter="rejected">Rejected</button>
+                    </div>
+                </header>
+
+                <div id="orders-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Cards populated by JS -->
+                </div>
+                
+                <div id="orders-empty" class="hidden flex flex-col items-center justify-center p-12 text-center bg-cardBg rounded-2xl border border-stone-700/50 mt-6">
+                    <svg class="w-16 h-16 text-stone-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                    <h3 class="text-xl font-bold text-white mb-2">No orders found</h3>
+                    <p class="text-textMuted">There are no orders matching your current filter.</p>
+                </div>
+            </section>
+
+            <!-- View: Create Order -->
+            <section id="create-order-view" class="view-section hidden animate-fade-in max-w-3xl mx-auto">
+                <header class="mb-8 text-center">
+                    <h2 class="text-3xl font-bold text-white mb-2">Create New Order</h2>
+                    <p class="text-textMuted">Manually enter a new order into the system.</p>
+                </header>
+
+                <div class="bg-cardBg rounded-2xl border border-stone-700/50 shadow-xl overflow-hidden animate-slide-up">
+                    <form id="create-order-form" class="p-6 md:p-8">
+                        <div class="space-y-6">
+                            <!-- Customer Name -->
+                            <div>
+                                <label for="customerName" class="block text-sm font-medium text-stone-300 mb-2">Customer Name</label>
+                                <input type="text" id="customerName" required class="w-full bg-stone-900 border border-stone-700 rounded-xl px-4 py-3 text-white placeholder-stone-500 focus:border-amber-500 focus:outline-none transition-all" placeholder="John Doe">
+                            </div>
+
+                            <!-- Items (Chips) -->
+                            <div>
+                                <label class="block text-sm font-medium text-stone-300 mb-2">Order Items</label>
+                                <div class="w-full bg-stone-900 border border-stone-700 rounded-xl p-2 min-h-[52px] flex flex-wrap gap-2 items-center focus-within:border-amber-500 focus-within:outline-none transition-all chip-input-wrapper">
+                                    <div id="items-chips-container" class="flex flex-wrap gap-2"></div>
+                                    <input type="text" id="itemInput" class="flex-1 bg-transparent border-none text-white min-w-[120px] p-1 text-sm placeholder-stone-500 focus:outline-none" placeholder="Type item and press Enter">
+                                </div>
+                                <p class="text-xs text-textMuted mt-2">Press Enter or comma to add an item.</p>
+                            </div>
+
+                            <!-- Total Price -->
+                            <div>
+                                <label for="totalPrice" class="block text-sm font-medium text-stone-300 mb-2">Total Price ($)</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                        <span class="text-stone-500 font-medium">$</span>
+                                    </div>
+                                    <input type="number" id="totalPrice" step="0.01" min="0.01" required class="w-full bg-stone-900 border border-stone-700 rounded-xl pl-8 pr-4 py-3 text-white placeholder-stone-500 focus:border-amber-500 focus:outline-none transition-all" placeholder="0.00">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 flex gap-4 pt-6 border-t border-stone-700/50">
+                            <button type="button" id="btn-reset-form" class="flex-1 bg-stone-800 hover:bg-stone-700 text-white font-medium py-3 px-4 rounded-xl transition-colors border border-stone-600">
+                                Reset
+                            </button>
+                            <button type="submit" class="flex-1 bg-primary hover:bg-primaryHover text-white font-medium py-3 px-4 rounded-xl transition-colors shadow-lg shadow-primary/20 flex justify-center items-center">
+                                <span>Create Order</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </main>
+            
+<!-- Toast Notifications Container -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-[9999] flex flex-col gap-2.5"></div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+</html>
