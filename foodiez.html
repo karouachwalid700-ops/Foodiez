@@ -53,13 +53,26 @@
         }
     </script>
 </head>
+<<<<<<< HEAD
 <body class="bg-darkBg text-textMain min-h-screen flex overflow-hidden font-sans [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-cardBg [&::-webkit-scrollbar-thumb]:bg-stone-600 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-stone-500">
+=======
+<body class="min-h-screen flex bg-[url('images/bg-blur.jpeg')] bg-cover bg-center bg-no-repeat">
+>>>>>>> fbfa17e304f09e7c16956fb960999fbae90d49aa
 
     <!-- Sidebar -->
     <aside class="w-64 bg-cardBg border-r border-stone-700 flex flex-col transition-all duration-300 hidden md:flex z-20">
         <div class="h-16 flex items-center px-6 border-b border-stone-700">
+<<<<<<< HEAD
             <svg class="w-8 h-8 text-primary mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+=======
+            <svg 
+                class="w-8 h-8 text-primary mr-3" 
+                fill="currentColor" 
+                viewBox="0 0 24 24"
+            >
+                <path d="M12 2C8 2 4.5 3.2 2 5l10 17L22 5c-2.5-1.8-6-3-10-3zm0 4a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm-4 3a1 1 0 110 2 1 1 0 010-2zm7 4a1.5 1.5 0 110 3 1.5 1.5 0 010-3z"/>
+>>>>>>> fbfa17e304f09e7c16956fb960999fbae90d49aa
             </svg>
             <h1 class="text-xl font-bold tracking-wider text-white" id="sidebar-brand">Foodiez</h1>
         </div>
@@ -206,10 +219,99 @@
                     </div>
                 </div>
             </section>
+<<<<<<< HEAD
+=======
+
+             <!-- View: Orders -->
+            <section id="orders-view" class="view-section hidden animate-fade-in">
+                <header class="mb-6 flex flex-col md:flex-row md:justify-between md:items-end gap-4">
+                    <div>
+                        <h2 class="text-3xl font-bold text-white mb-1">Orders Management</h2>
+                        <p class="text-textMuted text-sm">View and manage all restaurant orders.</p>
+                    </div>
+                    
+                    <!-- Filters -->
+                    <div class="flex gap-2 overflow-x-auto pb-2 md:pb-0 hide-scrollbar">
+                        <button class="filter-btn active px-4 py-2 rounded-full text-sm font-medium bg-primary text-white whitespace-nowrap" data-filter="all">All</button>
+                        <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium bg-stone-800 text-textMuted hover:bg-stone-700 hover:text-white whitespace-nowrap" data-filter="pending">Pending</button>
+                        <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium bg-stone-800 text-textMuted hover:bg-stone-700 hover:text-white whitespace-nowrap" data-filter="accepted">Accepted</button>
+                        <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium bg-stone-800 text-textMuted hover:bg-stone-700 hover:text-white whitespace-nowrap" data-filter="completed">Completed</button>
+                        <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium bg-stone-800 text-textMuted hover:bg-stone-700 hover:text-white whitespace-nowrap" data-filter="rejected">Rejected</button>
+                    </div>
+                </header>
+
+                <div id="orders-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Cards populated by JS -->
+                </div>
+                
+                <div id="orders-empty" class="hidden flex flex-col items-center justify-center p-12 text-center bg-cardBg rounded-2xl border border-stone-700/50 mt-6">
+                    <svg class="w-16 h-16 text-stone-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                    <h3 class="text-xl font-bold text-white mb-2">No orders found</h3>
+                    <p class="text-textMuted">There are no orders matching your current filter.</p>
+                </div>
+            </section>
+
+            <!-- View: Create Order -->
+            <section id="create-order-view" class="view-section hidden animate-fade-in max-w-3xl mx-auto">
+                <header class="mb-8 text-center">
+                    <h2 class="text-3xl font-bold text-white mb-2">Create New Order</h2>
+                    <p class="text-textMuted">Manually enter a new order into the system.</p>
+                </header>
+
+                <div class="bg-cardBg rounded-2xl border border-stone-700/50 shadow-xl overflow-hidden animate-slide-up">
+                    <form id="create-order-form" class="p-6 md:p-8">
+                        <div class="space-y-6">
+                            <!-- Customer Name -->
+                            <div>
+                                <label for="customerName" class="block text-sm font-medium text-stone-300 mb-2">Customer Name</label>
+                                <input type="text" id="customerName" required class="w-full bg-stone-900 border border-stone-700 rounded-xl px-4 py-3 text-white placeholder-stone-500 focus:border-amber-500 focus:outline-none transition-all" placeholder="John Doe">
+                            </div>
+
+                            <!-- Items (Chips) -->
+                            <div>
+                                <label class="block text-sm font-medium text-stone-300 mb-2">Order Items</label>
+                                <div class="w-full bg-stone-900 border border-stone-700 rounded-xl p-2 min-h-[52px] flex flex-wrap gap-2 items-center focus-within:border-amber-500 focus-within:outline-none transition-all chip-input-wrapper">
+                                    <div id="items-chips-container" class="flex flex-wrap gap-2"></div>
+                                    <input type="text" id="itemInput" class="flex-1 bg-transparent border-none text-white min-w-[120px] p-1 text-sm placeholder-stone-500 focus:outline-none" placeholder="Type item and press Enter">
+                                </div>
+                                <p class="text-xs text-textMuted mt-2">Press Enter or comma to add an item.</p>
+                            </div>
+
+                            <!-- Total Price -->
+                            <div>
+                                <label for="totalPrice" class="block text-sm font-medium text-stone-300 mb-2">Total Price ($)</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                        <span class="text-stone-500 font-medium">$</span>
+                                    </div>
+                                    <input type="number" id="totalPrice" step="0.01" min="0.01" required class="w-full bg-stone-900 border border-stone-700 rounded-xl pl-8 pr-4 py-3 text-white placeholder-stone-500 focus:border-amber-500 focus:outline-none transition-all" placeholder="0.00">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 flex gap-4 pt-6 border-t border-stone-700/50">
+                            <button type="button" id="btn-reset-form" class="flex-1 bg-stone-800 hover:bg-stone-700 text-white font-medium py-3 px-4 rounded-xl transition-colors border border-stone-600">
+                                Reset
+                            </button>
+                            <button type="submit" class="flex-1 bg-primary hover:bg-primaryHover text-white font-medium py-3 px-4 rounded-xl transition-colors shadow-lg shadow-primary/20 flex justify-center items-center">
+                                <span>Create Order</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </main>
+            
+>>>>>>> fbfa17e304f09e7c16956fb960999fbae90d49aa
 <!-- Toast Notifications Container -->
     <div id="toast-container" class="fixed bottom-5 right-5 z-[9999] flex flex-col gap-2.5"></div>
 
     <!-- Scripts -->
+<<<<<<< HEAD
     <script src="sc.js"></script>
+=======
+    <script src="script.js"></script>
+>>>>>>> fbfa17e304f09e7c16956fb960999fbae90d49aa
 </body>
 </html>
